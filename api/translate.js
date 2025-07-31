@@ -1,17 +1,18 @@
 const fetch = require("node-fetch");
 
 module.exports = async (req, res) => {
-  // السماح بالطلبات من أي مكان (CORS)
+  // إعدادات CORS للسماح بطلبات POST و OPTIONS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // رد سريع في حال OPTIONS (Preflight request)
+  // التعامل مع طلب التحقق المسبق (preflight)
   if (req.method === "OPTIONS") {
-    res.status(200).end();
+    res.status(200).end(); // رد سريع بدون محتوى
     return;
   }
 
+  // رفض أي طلب غير POST
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method Not Allowed" });
     return;
